@@ -1,0 +1,40 @@
+<!-- 就是除了头部与底部tabBar的中间部分 -->
+<view class="container">
+  <!-- 相当于div -->
+  <view class="slide">
+    <!-- 滑块视图容器。 -->
+    <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+      <swiper-item wx:for="{{ boards[0].movies }}" wx:key="id">
+        <image src="{{ item.images.large }}" mode="aspectFill"/>
+      </swiper-item>
+    </swiper>
+  </view>
+  <!-- 下边的排行榜，可滚动视图区域。scroll-y：允许水平滚动。 -->
+  <view class="board" scroll-y="true">
+    <!-- 遍历生成几组，block不生成标签，与angular中的container表现一致 -->
+    <block wx:for="{{ boards }}" wx:key="key">
+      <view class="board-item">
+        <!-- navigator， 导航，相当于a -->
+        <navigator url="../list/list?type={{ item.key }}&title={{ item.title }}" hover-class="none">
+          <view class="title">
+            <text>{{ item.title }}</text>
+            <!-- 保持纵横比缩放图片，只保证图片的短边能完全显示出来。 -->
+            <image src="../../images/arrowright.png" mode="aspectFill"/>
+          </view>
+        </navigator>
+        <!-- 可滚动视图区域。 -->
+        <scroll-view class="content" scroll-x="true">
+          <view class="inner">
+            <!-- 单个电影示例 -->
+            <navigator wx:for="{{ item.movies }}" wx:key="id" url="../item/item?id={{ item.id }}">
+              <view class="movie-item">
+                <image src="{{ item.images.large }}" mode="aspectFill"/>
+                <text>{{ item.title }}</text>
+              </view>
+            </navigator>
+          </view>
+        </scroll-view>
+      </view>
+    </block>
+  </view>
+</view>

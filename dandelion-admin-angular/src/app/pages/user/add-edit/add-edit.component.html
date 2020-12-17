@@ -1,0 +1,137 @@
+<div class="user-add-edit">
+  <h3>{{ !userId ? "添加新用户" : "修改用户信息" }}</h3>
+  <form nz-form [formGroup]="validateForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username"
+        >username</nz-form-label
+      >
+      <nz-form-control [nzSm]="10" [nzXs]="24">
+        <input
+          nz-input
+          formControlName="username"
+          id="username"
+          placeholder="请输入你的用户名"
+        />
+        <nz-form-explain
+          *ngIf="
+            validateForm.get('username')?.dirty && validateForm.get('username')?.errors
+          "
+        >
+          The input is not valid username!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="gender"
+        >gender</nz-form-label
+      >
+      <nz-form-control [nzSm]="10" [nzXs]="24">
+        <nz-select
+          formControlName="gender"
+          id="gender"
+          placeholder="请选择性别"
+        >
+          <nz-option nzValue="male" nzLabel="male"></nz-option>
+          <nz-option nzValue="female" nzLabel="female"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="
+            validateForm.get('gender')?.dirty &&
+            validateForm.get('gender')?.errors
+          "
+        >
+          Please select gender!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
+        >E-mail</nz-form-label
+      >
+      <nz-form-control [nzSm]="10" [nzXs]="24">
+        <input
+          nz-input
+          formControlName="email"
+          id="email"
+          placeholder="请输入你的邮箱地址"
+        />
+        <nz-form-explain
+          *ngIf="
+            validateForm.get('email')?.dirty &&
+            validateForm.get('email')?.errors
+          "
+        >
+          The input is not valid E-mail!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phonenumber"
+        >phonenumber</nz-form-label
+      >
+      <nz-form-control [nzSm]="10" [nzXs]="24">
+        <input
+          nz-input
+          formControlName="phonenumber"
+          id="phonenumber"
+          placeholder="请输入你的手机号"
+        />
+        <nz-form-explain
+          *ngIf="
+            validateForm.get('phonenumber')?.dirty &&
+            validateForm.get('phonenumber')?.errors
+          "
+        >
+          The input is not valid phonenumber!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="avatar"
+        >Avatar</nz-form-label
+      >
+      <nz-form-control [nzSm]="10" [nzXs]="24">
+        <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+          <button nz-button>
+            <i nz-icon nzType="upload"></i><span>Select File</span>
+          </button>
+        </nz-upload>
+        <button
+          nz-button
+          [nzType]="'primary'"
+          [nzLoading]="uploading"
+          (click)="handleUpload()"
+          [disabled]="fileList.length == 0"
+          style="margin-top: 16px"
+        >
+          {{ uploading ? "Uploading" : "Start Upload" }}
+        </button>
+        <nz-form-explain
+          *ngIf="
+            validateForm.get('avatar')?.dirty &&
+            validateForm.get('avatar')?.errors
+          "
+        >
+          Please select avatar!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item> -->
+    <nz-form-item>
+      <nz-form-control [nzOffset]="6" [nzSpan]="12">
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="!validateForm.valid"
+          style="margin-right: 20px;"
+          (click)="submitForm($event, validateForm.value)"
+        >
+          Submit
+        </button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

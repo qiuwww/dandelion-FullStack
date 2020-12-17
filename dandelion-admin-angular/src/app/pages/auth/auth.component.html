@@ -1,0 +1,35 @@
+<div class="auth">
+  <div class="center">
+    <form [formGroup]="authForm" (ngSubmit)="submitForm()">
+      <h2>欢迎{{isLogin ? "登录" : "注册"}}</h2>
+      <div class="form-group">
+        <label for="username">
+          <i class="fa fa-user fa-middle" aria-hidden="true"></i>
+        </label>
+        <input type="text" formControlName="username" placeholder="Authname" id="username" />
+      </div>
+      <div class="form-group" *ngIf="!isLogin">
+        <label for="phonenumber">
+          <i class="fa fa-mobile" aria-hidden="true"></i>
+        </label>
+        <input type="text" formControlName="phonenumber" placeholder="Phonenumber" id="phonenumber"/>
+      </div>
+      <div class="form-group">
+        <label for="password">
+          <i class="fa fa-lock fa-middle" aria-hidden="true"></i>
+        </label>
+        <input [type]="passwordType" formControlName="password" placeholder="Password" id="password" />
+        <div class="eye">
+          <i class="fa fa-middle" [ngClass]="{'fa-eye-slash': passwordType === 'password', 'fa-eye': passwordType === 'text'}" aria-hidden="true" (click)="changePasswordType()"></i>
+        </div>
+      </div>
+      <button class="submit" type="submit" [disabled]="!authForm.valid">
+        提交
+      </button>
+      <div class="more">
+        <a [routerLink]="['/auth/login']" *ngIf="!isLogin">已有账号，去登录</a>
+        <a [routerLink]="['/auth/register']" *ngIf="isLogin">没有账号，去注册</a>
+      </div>
+    </form>
+  </div>
+</div>

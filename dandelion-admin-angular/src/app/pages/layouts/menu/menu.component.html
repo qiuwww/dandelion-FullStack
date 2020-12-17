@@ -1,0 +1,60 @@
+<div class="menu">
+  <ul>
+    <!-- 这里是不包含次级选项的目录 -->
+    <ng-container *ngFor="let item of menuData; let i = index">
+      <!-- 遍历一个item -->
+      <li class="menu-item" *ngIf="item.children.length === 0">
+        <a [routerLink]="['/pages/' + item.path]">
+          <i
+            class="fa item fa-middle"
+            [ngClass]="item.icon"
+            aria-hidden="true"
+          ></i>
+          <span>{{ item.name }}</span>
+        </a>
+      </li>
+      <!-- 包含次级目录，根据children的值来判断 -->
+      <li
+        class="menu-item"
+        *ngIf="item.children && item.children.length > 0"
+        (click)="changeSubmenuChecked($event, item)"
+      >
+        <div class="submenu-title">
+          <span>
+            <i
+              class="fa item fa-middle"
+              [ngClass]="item.icon"
+              aria-hidden="true"
+            ></i>
+            <span>{{ item.name }}</span>
+          </span>
+          <i
+            class="fa fa-chevron-down fa-small menu-submenu-arrow"
+            aria-hidden="true"
+            *ngIf="!item.checked"
+          ></i>
+          <i
+            class="fa fa-chevron-up fa-small"
+            aria-hidden="true"
+            *ngIf="item.checked"
+          ></i>
+        </div>
+        <!-- 子目录 -->
+        <ul
+          role="menu"
+          class="submenu"
+          *ngIf="item.checked"
+          (click)="$event.stopPropagation()"
+        >
+          <ng-container *ngFor="let _item of item.children; let _i = index">
+            <li class="submenu-item" role="menu-item">
+              <a [routerLink]="['/pages/' + item.path + '/' + _item.path]">
+                <span>{{ _item.name }}</span>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </li>
+    </ng-container>
+  </ul>
+</div>

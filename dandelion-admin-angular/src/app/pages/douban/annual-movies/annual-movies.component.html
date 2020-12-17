@@ -1,0 +1,107 @@
+<div nz-row>
+  <div nz-col nzSpan="24" class="filter-wrap">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <div nz-row nzGutter="20" nzJustify="start">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item nzFlex>
+            <nz-form-label [nzSpan]="6" nzFor="title">选择年份</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <nz-select
+                formControlName="year"
+                (ngModelChange)="yearChange($event)"
+              >
+                <nz-option
+                  *ngFor="let p of yearData"
+                  [nzValue]="p"
+                  [nzLabel]="p"
+                ></nz-option>
+              </nz-select>
+
+              <nz-form-explain
+                *ngIf="
+                  validateForm.get('year')?.dirty &&
+                  validateForm.get('year')?.errors
+                "
+                >Please select your annual movie year!</nz-form-explain
+              >
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item nzFlex>
+            <nz-form-label [nzSpan]="6" nzFor="title">选择类目</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <nz-select formControlName="widget">
+                <!-- 这里的次级目录需要根据上一级的目录来重新渲染，这里使用validateForm来获取数据，受控 -->
+                <nz-option
+                  *ngFor="
+                    let c of widgetData[validateForm.get('year')['value']]
+                  "
+                  [nzValue]="c"
+                  [nzLabel]="widgetDictionary[c]['title']"
+                ></nz-option>
+              </nz-select>
+              <nz-form-explain
+                *ngIf="
+                  validateForm.get('widget')?.dirty &&
+                  validateForm.get('widget')?.errors
+                "
+                >Please select your movie widget!</nz-form-explain
+              >
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="12" [nzOffset]="5">
+              <button nz-button nzType="primary">Search</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </div>
+  <nz-divider nzType="horizontal"></nz-divider>
+  <div nz-col nzSpan="24" class="detail-wrap">
+    <div nz-card>
+      <div *ngIf="!showMovieList(); else elseBlock">
+        {{ showMovie }}
+      </div>
+      <ng-template #elseBlock>
+        <nz-table #basicTable [nzData]="showMovie || []" nzBordered>
+          <thead nzSingleSort>
+            <tr>
+              <th>sort</th>
+              <th nzWidth="20%">title</th>
+              <th>year</th>
+              <th>rating</th>
+              <th>rating_count</th>
+              <th>海报</th>
+              <th>查看</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let data of showMovie || []; index as i">
+              <td>{{ i + 1 }}</td>
+              <td>{{ data.title }}</td>
+              <td>{{ data.year }}</td>
+              <td>{{ data.rating }}</td>
+              <td>{{ data.rating_count }}</td>
+              <td>
+                <!-- <img
+                  class="cover_url"
+                  [src]="data.cover"
+                  alt="海报，这里的图片加载不出来，被限制了。"
+                /> -->
+              </td>
+              <td>
+                <a [href]="data.m_url" target="_blank">豆瓣电影</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="header">
+  <div class="logo">
+    <a [routerLink]="['/']">
+      <img src="assets/images/logo.jpg" alt="logo">
+    </a>
+  </div>
+  <div class="tabs"></div>
+  <div class="user-exit">
+    <div class="user-avatar">
+      <app-popover [title]="titleTemplate" [content]="contentTemplate" [visible]="visible">
+        <div class="avatar" (click)="popoverClick()">
+          <img [src]="userInfo.avatar" alt="avatar">
+        </div>
+      </app-popover>
+      <!-- 这里是传入的组件 -->
+      <ng-template #titleTemplate>
+        <h3 class="popover_title">这里是标题</h3>
+      </ng-template>
+      <ng-template #contentTemplate>
+        <div class="popover_content">
+          <img [src]="userInfo.avatar" alt="avatar">
+          <button class="edit_profile" (click)="userEdit()">修改资料</button>
+        </div>
+      </ng-template>
+      <div class="username">欢迎，{{userInfo.username}}</div>
+    </div>
+    <div class=logout (click)="logoutHandler()">
+      <aa-icon aaType="sign-out" aria-hidden="true" class="logout-icon"></aa-icon>
+    </div>
+  </div>
+</div>

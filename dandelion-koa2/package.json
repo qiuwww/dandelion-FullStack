@@ -1,0 +1,47 @@
+{
+  "name": "admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node bin/www",
+    "_comment": "nodemon reload, automatically。简介nodemon用来监视node.js应用程序中的任何更改并自动重启服务,非常适合用在开发环境中。",
+    "dev": "DEBUG=dev:www ./node_modules/.bin/nodemon --inspect bin/www",
+    "prd": "pm2 start bin/www",
+    "test_comment": "测试脚本，需要在test文件夹下配置对应的测试脚本，在内部引入app.js",
+    "test": "./node_modules/.bin/mocha --harmony",
+    "douban-annual": "node ./data-capture/douban-annual",
+    "test-db": "node ./data-capture/test-db",
+    "douban-movies": "node ./data-capture/douban-movies",
+    "data-gov": "node ./data-capture/data-stats-gov",
+    "baike": "node ./data-capture/baike-item-analysis"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "busboy": "^0.2.14",
+    "cheerio": "^1.0.0-rc.2",
+    "debug": "^2.6.3",
+    "ejs": "~2.3.3",
+    "jsonwebtoken": "^8.4.0",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^3.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-jsonp": "^2.0.2",
+    "koa-jwt": "^3.5.1",
+    "koa-logger": "^2.0.1",
+    "koa-mysql-session": "0.0.2",
+    "koa-onerror": "^4.1.0",
+    "koa-router": "^7.1.1",
+    "koa-session-minimal": "^3.0.4",
+    "koa-static": "^3.0.0",
+    "koa-views": "^5.2.1",
+    "mysql": "^2.16.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.8.1",
+    "supertest": "^3.3.0"
+  }
+}

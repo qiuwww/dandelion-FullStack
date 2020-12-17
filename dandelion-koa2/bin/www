@@ -1,0 +1,98 @@
+#!/usr/bin/env node
+
+// 网络服务入口
+/**
+ * Module dependencies.
+ */
+const config = require("./../config");
+const { getIPAddress } = require("./../utils/utils");
+var app = require("../app");
+
+// 用于输出信息，console的作用
+// debug库会判断DEBUG环境变量。
+// 控制日志输出的库，能够完美解决我们的上述需求，后边的参数用来分类。
+// 这里的`require('debug')`得到一个函数，函数的参数就是用来判断环境变量`DEBUG=worker:*`从而判断是否需要执行的参数，这个参数必须写在node之前。
+var debug = require("debug")("dev:www");
+var http = require("http");
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(config.port || process.env.PORT || "3000");
+// app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+// https://nodejs.org/api/http.html#http_http_createserver_options_requestlistener
+var server = http.createServer(app.callback());
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      // 终止当前进程并返回给定的 code。
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const address = getIPAddress();
+  const href = address + ":" + addr.port;
+
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+  // 打印当前服务接口地址
+  debug(new Date(), "page href ", "http://" + href);
+}

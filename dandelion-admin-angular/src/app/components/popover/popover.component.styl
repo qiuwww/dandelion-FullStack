@@ -1,0 +1,36 @@
+@import '../../styles/mixin.styl';
+
+.popover {
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+}
+
+.popover-content {
+  position: absolute;
+  z-index: 1030;
+  width: 200px;
+  top: 50px;;
+  left: -80px;
+
+  // 这里暂且只放在下边，如果需要自动适应就需要添加js来控制
+  .popover-arrow {
+    position: absolute;
+    z-index: 1010;
+    width: 8px;
+    height: 8px;
+    left: 50%;
+    top: -4px;
+    background: #fff;
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.06);
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .popover-inner {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}

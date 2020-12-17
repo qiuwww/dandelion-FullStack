@@ -1,0 +1,154 @@
+<!-- 这里可以认为是内嵌的一个组件，不过组件的操作及相关状态与宿主组件和在了一起 -->
+<!-- 这里的 let-type(对应当前template中的type) 与 let-page 是这个模版内部的变量 -->
+<!-- 对于从这个 TemplateRef 创建的内嵌视图，其数据绑定和依赖注入的上下文是从当前位置的上下文中继承而来的。 -->
+<!-- 这里可以看作一个插入template的组合，通过type来确定渲染哪一个 -->
+<ng-template #renderItemTemplate let-type let-page="page">
+  <a class="aa-pagination-item-link" *ngIf="type === 'prev'"
+    ><i aa-icon aaType="chevron-left"></i
+  ></a>
+  <a class="aa-pagination-item-link" *ngIf="type === 'next'"
+    ><i aa-icon aaType="chevron-right"></i
+  ></a>
+  <!-- 这里的page，表示单独的一页 -->
+  <a *ngIf="type == 'page'">{{ page }}</a>
+</ng-template>
+<ng-container>
+  <!-- <ng-template [ngTemplateOutlet]="aaItemRender" [ngTemplateOutletContext]="{ $implicit: 'prev'}"></ng-template> -->
+  <ul class="aa-pagination">
+    <!-- 如果aaShowTotal不为空就显示总数，没有默认值。且对应的参数Context，负责渲染细节 -->
+    <li class="aa-pagination-total-text" *ngIf="aaShowTotal">
+      <!-- 当前ng-template指向组件的aaShowTotal变量 -->
+      <ng-template
+        [ngTemplateOutlet]="aaShowTotal"
+        [ngTemplateOutletContext]="{
+          $implicit: aaTotal,
+          range: [
+            (aaPageIndex - 1) * aaPageSize + 1,
+            min(aaPageIndex * aaPageSize, aaTotal)
+          ]
+        }"
+      >
+      </ng-template>
+    </li>
+    <!-- 向前翻的按钮 -->
+    <li
+      title="{{ locale.prev_page }}"
+      class="aa-pagination-prev aa-pagination-item"
+      (click)="jumpPreOne()"
+      [class.aa-pagination-disabled]="isFirstIndex"
+    >
+      <ng-template
+        [ngTemplateOutlet]="aaItemRender"
+        [ngTemplateOutletContext]="{ $implicit: 'prev' }"
+      ></ng-template>
+    </li>
+
+    <li
+      [attr.title]="minIndex"
+      class="aa-pagination-item"
+      (click)="jumpPage(minIndex)"
+      [class.aa-pagination-item-active]="isFirstIndex"
+    >
+      <ng-template
+        [ngTemplateOutlet]="aaItemRender"
+        [ngTemplateOutletContext]="{ $implicit: 'page', page: minIndex }"
+      ></ng-template>
+    </li>
+    <!-- 显示省略号 -->
+    <li
+      [attr.title]="locale.prev_5"
+      (click)="jumpPreFive()"
+      class="aa-pagination-jump-prev"
+      *ngIf="maxIndex > 9 && aaPageIndex - 3 > minIndex"
+    >
+      <a class="aa-pagination-item-link">
+        <div class="aa-pagination-item-container">
+          <i
+            aa-icon
+            aaType="angle-double-left"
+            class="aa-pagination-item-link-icon"
+          ></i>
+          <span class="aa-pagination-item-ellipsis">•••</span>
+        </div>
+      </a>
+    </li>
+    <!-- 这里展示中间部分的五个tab -->
+    <li
+      *ngFor="let page of pages"
+      [attr.title]="page.index"
+      class="aa-pagination-item"
+      (click)="jumpPage(page.index)"
+      [class.aa-pagination-item-active]="aaPageIndex == page.index"
+    >
+      <ng-template
+        [ngTemplateOutlet]="aaItemRender"
+        [ngTemplateOutletContext]="{ $implicit: 'page', page: page.index }"
+      ></ng-template>
+    </li>
+    <!-- 后边的更多 -->
+    <li
+      [attr.title]="locale.next_5"
+      (click)="jumpPage(aaPageIndex + 5)"
+      class="aa-pagination-jump-next aa-pagination-item-link-icon"
+      *ngIf="maxIndex > 9 && aaPageIndex + 3 < maxIndex"
+    >
+      <a class="aa-pagination-item-link">
+        <div class="aa-pagination-item-container">
+          <i
+            aa-icon
+            aaType="angle-double-right"
+            class="aa-pagination-item-link-icon"
+          ></i>
+          <span class="aa-pagination-item-ellipsis">•••</span>
+        </div>
+      </a>
+    </li>
+    <!-- 后五个 -->
+    <li
+      [attr.title]="maxIndex"
+      class="aa-pagination-item"
+      (click)="jumpPage(maxIndex)"
+      *ngIf="maxIndex > 0 && maxIndex !== minIndex"
+      [class.aa-pagination-item-active]="isLastIndex"
+    >
+      <ng-template
+        [ngTemplateOutlet]="aaItemRender"
+        [ngTemplateOutletContext]="{ $implicit: 'page', page: maxIndex }"
+      ></ng-template>
+    </li>
+    <li
+      title="{{ locale.next_page }}"
+      class="aa-pagination-next aa-pagination-item"
+      (click)="jumpNextOne()"
+      [class.aa-pagination-disabled]="isLastIndex"
+    >
+      <ng-template
+        [ngTemplateOutlet]="aaItemRender"
+        [ngTemplateOutletContext]="{ $implicit: 'next' }"
+      ></ng-template>
+    </li>
+    <div
+      class="aa-pagination-options"
+      *ngIf="aaShowQuickJumper || aaShowSizeChanger"
+    >
+      <!-- 设置每页的数量，暂不添加，原理差不多应该 -->
+      <!--<aa-select *ngIf="aaShowSizeChanger" [aaSize]="aaSize=='small'?'small':''" class="aa-pagination-options-size-changer"
+        [ngModel]="aaPageSize" (ngModelChange)="onPageSizeChange($event)">
+        <aa-option *ngFor="let option of aaPageSizeOptions" [aaLabel]="option + locale.items_per_page" [aaValue]="option">
+        </aa-option>
+        <aa-option *ngIf="aaPageSizeOptions.indexOf(aaPageSize)==-1" [aaLabel]="aaPageSize + locale.items_per_page"
+          [aaValue]="aaPageSize">
+        </aa-option>
+      </aa-select> -->
+      <div class="aa-pagination-options-quick-jumper" *ngIf="aaShowQuickJumper">
+        {{ locale.jump_to }}
+        <input
+          #quickJumperInput
+          (keydown.enter)="handleKeyDown($event, quickJumperInput, true)"
+        />
+        {{ locale.page }}
+      </div>
+    </div>
+  </ul>
+</ng-container>
+<ng-content></ng-content>

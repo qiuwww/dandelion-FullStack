@@ -1,0 +1,136 @@
+<!-- filter -->
+<div nz-row>
+  <div nz-col nzSpan="24" class="filter-wrap">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <div nz-row nzGutter="20" nzJustify="start">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item nzFlex>
+            <nz-form-label [nzSpan]="6" nzFor="title">title</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <input
+                id="title"
+                type="text"
+                nz-input
+                formControlName="title"
+                placeholder="Please input your movie title!"
+              />
+              <nz-form-explain
+                *ngIf="
+                  validateForm.get('title')?.dirty &&
+                  validateForm.get('title')?.errors
+                "
+                >Please input your movie title!</nz-form-explain
+              >
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="type">type</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <nz-select
+                id="type"
+                nzAllowClear
+                formControlName="type"
+                nzPlaceHolder="Select a type and change input text above"
+              >
+                <nz-option
+                  *ngFor="let item of types"
+                  [nzValue]="item.type"
+                  [nzLabel]="item.type_name"
+                ></nz-option>
+              </nz-select>
+              <nz-form-explain
+                *ngIf="
+                  validateForm.get('type')?.dirty &&
+                  validateForm.get('type')?.errors
+                "
+                >Please select your gender!</nz-form-explain
+              >
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="12" [nzOffset]="5">
+              <button nz-button nzType="primary">Search</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </div>
+  <nz-divider nzType="horizontal"></nz-divider>
+  <div nz-col nzSpan="24" class="table-wrap">
+    <nz-table
+      #basicTable
+      [nzData]="listOfData"
+      nzBordered
+      [nzFrontPagination]="false"
+      nzShowQuickJumper
+      nzShowPagination
+      nzShowSizeChanger
+      [nzShowTotal]="totalTemplate"
+      [nzPageIndex]="pagination.pageIndex"
+      [nzPageSize]="pagination.pageSize"
+      [nzTotal]="pagination.total"
+      (nzPageIndexChange)="paginationChange($event, '')"
+      (nzPageSizeChange)="paginationChange('', $event)"
+    >
+      <ng-template #totalTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+      <thead nzSingleSort>
+        <tr>
+          <th>sort</th>
+          <th nzWidth="20%">title</th>
+          <th>release_date</th>
+          <th
+            nzShowSort
+            nzSortKey="score"
+            (nzSortChange)="theadSortByBE('score', $event)"
+          >
+            score
+          </th>
+          <th
+            nzShowSort
+            nzSortKey="vote_count_multiply_by_score"
+            (nzSortChange)="
+              theadSortByBE('vote_count_multiply_by_score', $event)
+            "
+          >
+            vote_count_multiply_by_score
+          </th>
+          <th nzWidth="30%">types</th>
+          <th>type_name</th>
+          <th>海报</th>
+          <th nzWidth="10%">查看</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of listOfData; index as i">
+          <td>
+            {{ (pagination.pageIndex - 1) * pagination.pageSize + i + 1 }}
+          </td>
+          <td>{{ data.title }}</td>
+          <td>{{ data.release_date }}</td>
+          <td>{{ data.score }}</td>
+          <td>{{ data.vote_count_multiply_by_score }}</td>
+          <td>{{ data.types }}</td>
+          <td>{{ getType_name(data.type) }}</td>
+          <td>
+            <!-- <img
+              class="cover_url"
+              [src]="data.cover_url"
+              alt="海报，这里的图片加载不出来，被限制了。"
+            /> -->
+          </td>
+          <td>
+            <a [href]="data.url" target="_blank">豆瓣电影</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

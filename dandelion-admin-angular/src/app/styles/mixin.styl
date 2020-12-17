@@ -1,0 +1,61 @@
+// @import 'default.styl';
+
+// 设置皮肤
+able-click-tag-color = #2a2a2a;
+able-click-tag-colorVisited = #f9ffb7;
+i-color = #5de191;
+header-height = 60px;
+base-bgc = #f0f2f5;
+gray-bgc = #a4abb3;
+content-bgc = #fff;
+border-base = 1px solid #d9d9d9;
+text-base-color = rgba(0, 0, 0, 0.65);
+primary-color = #1890ff;
+disabled-color = rgba(0, 0, 0, 0.65);
+
+wh(w, h) {
+  width: w;
+  height: h;
+}
+
+bgc(color) {
+  background-color: color;
+}
+
+bis(url) {
+  background-image: url(url);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+cp =
+  cursor: pointer;
+ct =
+  display: flex;
+  justify-content: center;
+  align-items: center;
+cv =
+  display: flex;
+  align-items: center;
+cl =
+  display: flex;
+  justify-content: center;
+fr =
+  display: flex;
+  flex-direction: row;
+fc =
+  display: flex;
+  flex-direction: column;
+transformXYCenter =
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+transformYCenter =
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+transformXCenter =
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);

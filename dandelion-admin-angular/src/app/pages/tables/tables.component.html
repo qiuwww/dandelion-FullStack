@@ -1,0 +1,22 @@
+<div class="tables main">
+  <table border="1">
+    <tr>
+      <th>姓名</th>
+      <th>年龄</th>
+      <th>住址</th>
+      <th>选择</th>
+    </tr>
+    <tr *ngFor="let item of dataSet; let key = index;">
+      <td>{{item.name}}</td>
+      <td>{{item.age}}</td>
+      <td>{{item.address}}</td>
+      <td>
+        <input type="checkbox" [id]="'check'+key" [(ngModel)]="item.checked" />
+        <label [for]="'check'+key"> {{item.title}}</label>
+      </td>
+    </tr>
+  </table>
+  <div class="btns">
+    <button class="getTableState" (click)="getTableState()">getTableState</button>
+  </div>
+</div>

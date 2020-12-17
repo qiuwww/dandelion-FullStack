@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ./head %>
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>EJS Welcome to
+    <%= title %>
+  </p>
+  <script src="https://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+  <script>
+    window.success_jsonpCallback = function (data) {
+      console.table(data);
+    }
+    $(function () {
+      $.ajax({
+        type: 'get',
+        dataType: 'jsonp',
+        // 从这里给定回调的参数
+        jsonp: "callback",
+        jsonpCallback: "success_jsonpCallback",
+        // url: location.origin + '/jsonp/getData.jsonp',
+        url: location.origin + '/jsonp/koa-jsonp.jsonp',
+
+        success: function (data, status, xhr) {
+          // 实际这里会执行还在success_jsonpCallback之前
+          //这里的success方法是不会执行的，会调用上传pandoraCall方法，该方法名和服务器回传内容的方法名一致
+          console.log(data);
+          console.log(status);
+          console.log(xhr);
+        },
+        error: function (e) {
+          alert(e);
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<div class="list main">
+  <h2 style="float: left;">当前系统用户列表</h2>
+  <button
+    style="float: right; height: 30px;"
+    aa-button
+    aaType="primary"
+    aaSize="large"
+    aaLoading="true"
+    [routerLink]="['/pages/user/add']"
+  >
+    新增用户
+  </button>
+  <table border="1">
+    <thead>
+      <tr>
+        <th width="100">id</th>
+        <th width="200">username</th>
+        <th width="300">phonenumber</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of list; let key = index">
+        <td>{{ item.id }}</td>
+        <td>{{ item.username }}</td>
+        <td>{{ item.phonenumber }}</td>
+        <td>
+          <!-- 这里的button的内部的元素整体被嵌入到aa-button组件的ng-content内，就像是使用aa-button代替一样的效果 -->
+          <button
+            aa-button
+            aaType="primary"
+            aaSize="large"
+            aaLoading="true"
+            [routerLink]="['/pages/user/edit', item.id]"
+          >
+            编辑
+          </button>
+          <button aa-button (click)="deleteHandle(item.id)">删除</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <aa-pagination
+    [aaTotal]="pagination.total"
+    [aaPageSize]="pagination.pageSize"
+    [aaPageIndex]="pagination.pageIndex"
+    [aaShowTotal]="rangeTemplate"
+    [aaShowQuickJumper]="true"
+    (aaPageIndexChange)="pageIndexChange($event)"
+  ></aa-pagination>
+  <!-- 这里定义总页码，这个template的内部参数range和total -->
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} of {{ total }} items
+  </ng-template>
+</div>

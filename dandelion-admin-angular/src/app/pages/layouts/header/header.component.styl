@@ -1,0 +1,77 @@
+@import '../../../styles/mixin.styl';
+
+.header {
+  width: 100%;
+  height: header-height;
+  background-color: skyblue;
+  {cv};
+}
+
+.logo {
+  width: 200px;
+  height: 100%;
+  {ct};
+  a{
+    height: 100%;
+    {ct}
+  }
+  img {
+    display: block;
+    height: 80%;
+  }
+}
+
+.tabs {
+  {cv};
+  flex: 1;
+  height: 100%;
+}
+
+.user-exit {
+  width: 200px;
+  height: 40px;
+  padding: 0 10px;
+  {fr};
+  justify-content: space-between;
+  .user-avatar {
+    {cv};
+    position: relative;
+    flex: 1;
+  }
+
+  .avatar img {
+    height: 40px;
+    margin-right: 10px;
+    width: @height;
+    border-radius: (@height / 2);
+    display: block;
+  }
+
+  .logout {
+    {cp}
+    width: 40px;
+    height: @width;
+    {fr};
+  }
+}
+.popover_title{
+  width: 100%;
+  text-align: center;
+}
+.popover_content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  img{
+    width: 100px;
+    height: 100px;
+    margin: 10px 0;
+  }
+  button{
+    width: 80px;
+  }
+}
+.logout-icon {
+  color: green;
+}

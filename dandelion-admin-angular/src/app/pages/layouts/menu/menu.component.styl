@@ -1,0 +1,62 @@
+@import '../../../styles/mixin.styl';
+
+.menu {
+  width: 200px;
+  height: 100%;
+
+  * {
+    user-select: none;
+  }
+}
+
+a, span {
+  color: #ccc;
+}
+
+.menu-item {
+  width: 100%;
+  padding: 0 20px;
+  {cp};
+
+  &>a, .submenu-title {
+    height: 40px;
+    {fr};
+    {cv};
+  }
+
+  i.item {
+    margin-right: 10px;
+    width: 30px;
+  }
+}
+
+.submenu {
+  // display: none;
+  width: 100%;
+
+  .submenu-item {
+    height: 40px;
+    width: 100%;
+
+    &>a {
+      width: 100%;
+      height: 100%;
+      {cv};
+      padding-left: 30px;
+    }
+  }
+}
+
+.submenu-title {
+  &>span {
+    {fr};
+    {cv};
+    flex: 1;
+  }
+}
+
+.menu-submenu-arrow {
+  display: block;
+  height: 100%;
+  {ct};
+}

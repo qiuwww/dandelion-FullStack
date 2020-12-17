@@ -1,0 +1,14 @@
+<div class="popover">
+  <ng-content></ng-content>
+  <div class="popover-content" *ngIf="visible">
+    <div class="popover-arrow"></div>
+    <div class="popover-inner">
+      <div class="popover-title" *ngIf="title">
+        <ng-container *ngTemplateOutlet="title"></ng-container>
+      </div>
+      <div class="popover-inner-content" *ngIf="content">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
